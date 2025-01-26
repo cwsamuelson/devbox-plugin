@@ -1,0 +1,16 @@
+{{ "{% set build_type, compiler, compiler_version = profile_name.split('-') %}" }}
+
+[settings]
+os={{ "{{detect_api.detect_os()}}" }}
+arch={{ "{{detect_api.detect_arch()}}" }}
+
+build_type={{ "{{build_type}}" }}
+
+compiler={{ "{{compiler}}" }}
+compiler.version={{ "{{compiler_version}}" }}
+compiler.cppstd=23
+compiler.libcxx=libstdc++11
+
+[conf]
+tools.cmake.cmaketoolchain:generator=Ninja
+

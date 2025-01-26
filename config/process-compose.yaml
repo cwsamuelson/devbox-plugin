@@ -1,0 +1,4 @@
+processes:
+  conan-server:
+    command: conan_server
+

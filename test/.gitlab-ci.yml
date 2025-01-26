@@ -1,0 +1,14 @@
+image: base-builder
+
+build:
+  stage: build
+  needs: []
+  before_script:
+  - ls -lhA
+  - . /.venv/bin/activate
+  - git config --global init.defaultBranch main
+  - git init
+  - git add CMakeLists.txt source/main.cc
+  script:
+  - conan build -pr:a /profiles/Debug-gcc-14 .
+

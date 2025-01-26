@@ -1,0 +1,10 @@
+FROM debian:bookworm
+
+WORKDIR /app
+
+# COPY 
+
+ENTRYPOINT [ "/app/bin/Marksman" ]
+
+CMD []
+
