@@ -53,10 +53,10 @@
         "gitlab-ci-local --volume personal_conan_cache:/root/.conan2 --volume {{ .Virtenv }}/profiles:/profiles $@"
       ],
       "purge": [
-        "rm -rf build cmake-* .gitlab-ci-local site CMakeUserPresets.json conan_provider.cmake output_final"
+        "rm -rf build cmake-* .gitlab-ci-local site CMakeUserPresets.json conan_provider.cmake output_final $@"
       ],
       "reset": [
-        "devbox run purge",
+        "devbox run purge $@",
         "rm -rf .venv .devbox"
       ]
     }
