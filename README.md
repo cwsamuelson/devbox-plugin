@@ -84,7 +84,7 @@ If you have suggested code changes, create a pull request.
 At this time I am the only contributor. Feel free to provide a PR or issue with ideas or changes!
 
 # Copyright
-© 2024 Chris Samuelson. All rights reserved.
+© 2025 Chris Samuelson. All rights reserved.
 
 # [Licensing](https://choosealicense.com/licenses/gpl-3.0/)
 This project is licensed under the [GPLv3](https://www.gnu.org/licenses/gpl-3.0-standalone.html).
