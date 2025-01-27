@@ -23,6 +23,19 @@ Directory of core set of profiles
 - SCRIPT_DIR: .devbox/virtenv/CPP_TEST/scripts
 Directory of core set of scripts
 
+# Usage
+To use this plugin, take a look at the `test` directory.  Or just include it in your existing `devbox` project:
+```json
+"include": [
+  "github:cwsamuelson/devbox-plugin"
+]
+```
+
+If you aren't currently using `devbox`, I highly recommend it.  Install `Nix`, `Home Manager` and add `devbox` to your `Home Manager` configuration.  After that run `devbox init && devbox generate direnv` to get devbox setup, then add the above configuration change in your new `devbox.json` file.
+
+> [WARN]
+> The project name might change in the future, in case I create additional plugins for different languages or toolchains.
+
 # Scripts
 ## Argument Forwarding
 Some of the available scripts will forward unused arguments to the underlying implementations.  Here are the scripts, with the tool it's being forwarded to.
