@@ -19,6 +19,7 @@
   },
   "create_files": {
     "{{ .Virtenv }}/scripts/build.bash": "scripts/build.bash",
+    "{{ .Virtenv }}/profiles/default": "profiles/default",
     "{{ .Virtenv }}/profiles/Debug-gcc-14": "profiles/Debug-gcc-14",
     "{{ .Virtenv }}/profiles/Debug-gcc-13": "profiles/Debug-gcc-13",
     "{{ .Virtenv }}/profiles/Debug-clang-18": "profiles/Debug-clang-18",
