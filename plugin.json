@@ -1,6 +1,6 @@
 {
   "name": "CPP_TEST",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "C++ development plugin",
   "packages": {
     "gcc": "latest",
@@ -41,7 +41,10 @@
     ],
     "scripts": {
       "build": [
-        "$SCRIPT_DIR/build.bash $@"
+        "$SCRIPT_DIR/build.bash build $@"
+      ],
+      "create": [
+        "$SCRIPT_DIR/build.bash create $@"
       ],
       "test": [
         "echo \"Fuzzing. Mutation. etc?\""

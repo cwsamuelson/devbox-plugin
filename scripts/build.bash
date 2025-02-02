@@ -27,18 +27,21 @@ typeofvar () {
 #! @TODO validate the combinatorics of all these..
 # probably by writing a build_all script?
 
-# 3 primary arguments:
+# 4 primary arguments:
+# build 'kind': build/create
 # build type
 # compiler
 # compiler version
 # their position doesn't matter, and they are all optional
 # declare possible values, and their defaults
+build_kinds=("build" "create")
 build_types=("Debug" "Release" "Fuzz" "Python")
 #! @TODO MSVC
 compilers=("gcc" "clang")
 gcc_versions=("14" "13")
 clang_versions=("19" "18")
 
+default_kind=${build_kinds[0]}
 default_build=${build_types[0]}
 default_compiler=${compilers[0]}
 # default version calculated later, once chosen compiler is determined
@@ -47,6 +50,15 @@ args=("$@")
 
 # For each optional argument, we must sort the arrays and pass them to `comm` to find common values
 # Then the result of `comm` is used to determine if there was an argument match.  if there was, we shift it off the arg list
+
+# this one is sorta required
+# Parse for build kind
+comm_result=`comm -12 <(echo "${args[@]}" | tr '[:upper:]' '[:lower:]' | tr ' ' '\n' | sort) <(echo "${build_kinds[@]}" | tr '[:upper:]' '[:lower:]' | tr ' ' '\n' | sort)`
+build_kind=${comm_result:-$default_kind}
+
+if [ ! -z "$comm_result" ]; then
+  shift 1
+fi
 
 # Parse for build type
 comm_result=`comm -12 <(echo "${args[@]}" | tr '[:upper:]' '[:lower:]' | tr ' ' '\n' | sort) <(echo "${build_types[@]}" | tr '[:upper:]' '[:lower:]' | tr ' ' '\n' | sort)`
@@ -88,5 +100,5 @@ if [[ ! -f $profile_path ]]; then
 fi
 
 # Build
-conan build -pr:a $profile_path $@ .
+conan $build_kind -pr:a $profile_path $@ .
 
