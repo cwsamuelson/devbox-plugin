@@ -46,6 +46,9 @@
       "create": [
         "$SCRIPT_DIR/build.bash create $@"
       ],
+      "docs": [
+        "$SCRIPT_DIR/build.bash docs $@"
+      ],
       "test": [
         "echo \"Fuzzing. Mutation. etc?\""
       ],
@@ -55,12 +58,14 @@
       "ci": [
         "gitlab-ci-local --volume personal_conan_cache:/root/.conan2 --volume {{ .Virtenv }}/profiles:/profiles $@"
       ],
+      "clean": [
+        "rm -rf build cmake-* build-* site $@"
+      ],
       "purge": [
-        "rm -rf build cmake-* .gitlab-ci-local site CMakeUserPresets.json conan_provider.cmake output_final $@"
+        "devbox run clean .gitlab-ci-local CMakeUserPresets.json conan_provider.cmake output_final $@"
       ],
       "reset": [
-        "devbox run purge $@",
-        "rm -rf .venv .devbox"
+        "devbox run purge  .venv .devbox $@"
       ]
     }
   }

@@ -2,11 +2,17 @@
 
 # build docs
 
-ROOT=${CPP_TEST_DIR:-${DEVBOX_PROJECT_ROOT:-.}}
+PLUGIN_ROOT=${CPP_TEST_DIR:-${DEVBOX_PROJECT_ROOT:-.}}
+PROJECT_ROOT=${DEVBOX_PROJECT_ROOT:-.}
 
 if [ ! -z "$1" -a "$#" -eq 1 -a "$1" == "docker" ]; then
-  docker build -f ${ROOT}/docker/Dockerfile.builder -t base-builder ${ROOT}/docker
-  #docker build -f ${ROOT}/docker/Dockerfile.runtime -t base-runtime ${ROOT}/docker
+  docker build -f ${PLUGIN_ROOT}/docker/Dockerfile.builder -t base-builder ${PLUGIN_ROOT}/docker
+  #docker build -f ${PLUGIN_ROOT}/docker/Dockerfile.runtime -t base-runtime ${PLUGIN_ROOT}/docker
+  exit
+fi
+
+if [ ! -z "$1" -a "$#" -eq 1 -a "$1" == "docs" ]; then
+  mkdocs build --no-directory-urls -f $PROJECT_ROOT/mkdocs.yml
   exit
 fi
 
@@ -92,7 +98,7 @@ fi
 
 
 # Build profile path to build with
-profile_path="${ROOT}/profiles/${build_type^}-${compiler}-${version}"
+profile_path="${PLUGIN_ROOT}/profiles/${build_type^}-${compiler}-${version}"
 echo looking for $profile_path
 if [[ ! -f $profile_path ]]; then
   echo $profile_path not found
