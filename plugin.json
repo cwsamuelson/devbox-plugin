@@ -17,10 +17,10 @@
     "SCRIPT_DIR": "{{ .Virtenv }}/scripts"
   },
   "create_files": {
-    "{{ .Virtenv }}/scripts/build.bash": "scripts/build.bash",
-    "{{ .Virtenv }}/scripts/clean.bash": "scripts/clean.bash",
-    "{{ .Virtenv }}/docker/Dockerfile.builder": "docker/Dockerfile.builder",
-    "{{ .Virtenv }}/docker/Dockerfile.runtime": "docker/Dockerfile.runtime"
+    "{{.Virtenv}}/scripts/build.bash": "scripts/build.bash",
+    "{{.Virtenv}}/scripts/clean.bash": "scripts/clean.bash",
+    "{{.Virtenv}}/docker/Dockerfile.builder": "docker/Dockerfile.builder",
+    "{{.Virtenv}}/docker/Dockerfile.runtime": "docker/Dockerfile.runtime"
   },
   "shell": {
     "init_hook": [
@@ -29,11 +29,11 @@
       ". ${DEVBOX_PROJECT_ROOT}/.venv/bin/activate",
       "# the equals sign disambiguates from other packages that have 'conan' in them, like conan_server",
       "[ `python -m pip freeze | grep 'conan='` ] || (echo 'Installing conan...' ; python -m pip install conan)",
-      "[ `python -m pip freeze | grep 'mkdoxy'` ] || (echo 'Installing conan...' ; python -m pip install mkdoxy)"
+      "[ `python -m pip freeze | grep 'mkdoxy'` ] || (echo 'Installing mkdoxy...' ; python -m pip install mkdoxy)"
     ],
     "scripts": {
       "build": [
-        "$SCRIPT_DIR/build.bash build $@"
+        "$SCRIPT_DIR/build.bash $@"
       ],
       "test": [
         "echo \"Fuzzing. Mutation. etc?\""
@@ -45,7 +45,7 @@
         "gitlab-ci-local --volume personal_conan_cache:/root/.conan2 $@"
       ],
       "clean": [
-        "scripts/clean.bash clean $@"
+        "$SCRIPT_DIR/clean.bash clean $@"
       ],
       "purge": [
         "devbox run clean purge $@"
