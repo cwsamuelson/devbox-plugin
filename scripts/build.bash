@@ -145,8 +145,14 @@ echo "Using Conan profile: $profile"
 profile_path="profiles/$profile"
 echo Looking for $profile_path
 if [[ ! -f $profile_path ]]; then
-  echo $profile_path not found
-  exit 1
+  echo Not found
+
+  profile_path="$profile"
+  echo Checking for default profile $profile
+  if [ ! `(conan profile list | grep $profile) 2>/dev/null` ]; then
+    echo Could not find requested profile
+    exit 1
+  fi
 fi
 
 # Run conan build with the constructed profile and forward any additional arguments.
