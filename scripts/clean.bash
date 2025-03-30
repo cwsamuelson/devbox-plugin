@@ -4,13 +4,19 @@
 # Exit immediately if a command exits with a non-zero status.
 set -e
 
+if [ $1 = "--help" -o $1 = "-help" -o $1 = "-h" -o $1 = "help" ]; then
+  echo Clean the project in different modes.
+  echo Modes supported are: reset, purge, ci
+  echo Supports forwarding arguments to effective end command
+fi
+
 # Array to hold additional targets for cleanup based on mode.
 special_targets=()
 
 # Process any leading mode arguments ("ci", "purge", "reset").
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    clean)
+    docs)
       # When "clean" mode is provided, add build-specific cleanup targets.
       special_targets+=("build" "cmake-*" "site")
       shift
@@ -27,6 +33,11 @@ while [[ $# -gt 0 ]]; do
       ;;
     reset)
       # When "reset" mode is provided, add even more aggressive cleanup targets.
+      special_targets+=(".venv" ".devbox")
+      shift
+      ;;
+    all)
+      # When "all" mode is provided, add apply all clean modes
       special_targets+=(".venv" ".devbox")
       shift
       ;;

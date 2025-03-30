@@ -41,6 +41,18 @@ special_builds=("docker" "docs")
 
 # End of configuration.
 
+if [ $1 = "--help" -o $1 = "-help" -o $1 = "-h" -o $1 = "help" ]; then
+  echo Semantically select a conan profile based on provided compiler, version, and build type.
+  echo Supported compilers: gcc (default), clang, msvc.
+  echo Default versions: gcc: 14, clang: 19, msvc: 142.
+  echo Supported build types: Release (default), Debug.
+  echo Special commands supported: docker, docs
+  echo `build docker` will build the builder container from the docker directory
+  echo `build docs` will build the documentation using mkdocs in the docs directory
+  echo Supports forwarding arguments to effective end command
+  exit
+fi
+
 set -e
 
 # Initialize variables.
