@@ -1,6 +1,6 @@
 {
   "name": "CPP_TEST",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "C++ development plugin",
   "packages": {
     "gcc": "latest",
@@ -46,7 +46,7 @@
         "gitlab-ci-local --volume personal_conan_cache:/root/.conan2 $@"
       ],
       "clean": [
-        "$SCRIPT_DIR/clean.bash clean $@"
+        "$SCRIPT_DIR/clean.bash basic $@"
       ],
       "purge": [
         "devbox run clean purge $@"

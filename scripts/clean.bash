@@ -8,6 +8,7 @@ if [ $1 = "--help" -o $1 = "-help" -o $1 = "-h" -o $1 = "help" ]; then
   echo Clean the project in different modes.
   echo Modes supported are: reset, purge, ci
   echo Supports forwarding arguments to effective end command
+  exit 0
 fi
 
 # Array to hold additional targets for cleanup based on mode.
@@ -16,9 +17,14 @@ special_targets=()
 # Process any leading mode arguments ("ci", "purge", "reset").
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    basic)
+      # When "basic" mode is provided, add build-specific cleanup targets.
+      special_targets+=("build" "cmake-*")
+      shift
+      ;;
     docs)
-      # When "clean" mode is provided, add build-specific cleanup targets.
-      special_targets+=("build" "cmake-*" "site")
+      # When "basic" mode is provided, add build-specific cleanup targets.
+      special_targets+=("site")
       shift
       ;;
     ci)
@@ -38,7 +44,7 @@ while [[ $# -gt 0 ]]; do
       ;;
     all)
       # When "all" mode is provided, add apply all clean modes
-      special_targets+=(".venv" ".devbox")
+      exec $0 reset purge ci docs basic
       shift
       ;;
     *)
@@ -47,6 +53,10 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
+
+if [ ${#special_targets[@]} = 0 ]; then
+  echo 'No pre-defined clean categories specified'
+fi
 
 # Remaining arguments (if any) are user-specified targets.
 user_targets=("$@")
