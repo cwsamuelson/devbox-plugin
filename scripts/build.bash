@@ -167,8 +167,8 @@ if [[ ! -f $profile_path ]]; then
   fi
 fi
 
-echo 'Profile identified $profile_path'
-echo 'Additional args provided: ${other_args[@]}'
+echo "Profile identified $profile_path"
+echo "Additional args provided: ${other_args[@]}"
 
 # Run conan build with the constructed profile and forward any additional arguments.
 set -x
