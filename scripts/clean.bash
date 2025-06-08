@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # clean.bash - Script to perform different levels of project cleanup.
 
+#! @TODO special cleans for specific build types?
+
 # Exit immediately if a command exits with a non-zero status.
 set -e
 

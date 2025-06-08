@@ -23,13 +23,13 @@ default_compiler="gcc"
 
 # Valid versions for each compiler.
 declare -A valid_versions
-valid_versions["gcc"]="14 13"
+valid_versions["gcc"]="15 14 13"
 valid_versions["clang"]="19 18"
 valid_versions["msvc"]="142"
 
 # Default version for each compiler.
 declare -A default_versions
-default_versions["gcc"]="14"
+default_versions["gcc"]="15"
 default_versions["clang"]="19"
 default_versions["msvc"]="142"
 
@@ -44,7 +44,7 @@ special_builds=("docker" "docs")
 if [[ $1 = "--help" || $1 = "-help" || $1 = "-h" || $1 = "help" ]]; then
   echo Semantically select a conan profile based on provided compiler, version, and build type.
   echo 'Supported compilers: gcc (default), clang, msvc.'
-  echo Default versions: gcc: 14, clang: 19, msvc: 142.
+  echo Default versions: gcc: ${default_versions["gcc"]}, clang: ${default_versions["clang"]}, msvc: ${default_versions["msvc"]}.
   echo 'Supported build types: Release (default), Debug.'
   echo Special commands supported: docker, docs
   echo \`build docker\` will build the builder container from the docker directory
