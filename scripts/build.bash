@@ -1,27 +1,19 @@
 #! /usr/bin/env bash
 
-# build docs
-
-ROOT=${CPP_TEST_DIR:-${DEVBOX_PROJECT_ROOT:-.}}
-
-if [ ! -z "$1" -a "$#" -eq 1 -a "$1" == "docker" ]; then
-  docker build -f ${ROOT}/docker/Dockerfile.builder -t base-builder ${ROOT}/docker
-  #docker build -f ${ROOT}/docker/Dockerfile.runtime -t base-runtime ${ROOT}/docker
-  exit
-fi
+ROOT=${CPP_TEST_DIR:-${DEVBOX_PROJECT_ROOT:-${DEVENV_PROJECT_ROOT:-pwd}}}
 
 typeofvar () {
-    local type_signature=$(declare -p "$1" 2>/dev/null)
+  local type_signature=$(declare -p "$1" 2>/dev/null)
 
-    if [[ "$type_signature" =~ "declare --" ]]; then
-        printf "string"
-    elif [[ "$type_signature" =~ "declare -a" ]]; then
-        printf "array"
-    elif [[ "$type_signature" =~ "declare -A" ]]; then
-        printf "map"
-    else
-        printf "none"
-    fi
+  if [[ "$type_signature" =~ "declare --" ]]; then
+    printf "string"
+  elif [[ "$type_signature" =~ "declare -a" ]]; then
+    printf "array"
+  elif [[ "$type_signature" =~ "declare -A" ]]; then
+    printf "map"
+  else
+    printf "none"
+  fi
 }
 
 #! @TODO validate the combinatorics of all these..
@@ -36,12 +28,13 @@ typeofvar () {
 build_types=("Debug" "Release" "Fuzz" "Python")
 #! @TODO MSVC
 compilers=("gcc" "clang")
-gcc_versions=("14" "13")
-clang_versions=("19" "18")
+gcc_versions=("16" "15" "14" "13")
+clang_versions=("21" "20" "19" "18")
+msvc_versions=( "26" "22" "19" )
 
 default_build=${build_types[0]}
 default_compiler=${compilers[0]}
-# default version calculated later, once chosen compiler is determined
+# default version set once chosen compiler is determined
 
 args=("$@")
 
@@ -78,15 +71,24 @@ if [ ! -z "$comm_result" ]; then
   shift 1
 fi
 
-
 # Build profile path to build with
-profile_path="${ROOT}/profiles/${build_type^}-${compiler}-${version}"
-echo looking for $profile_path
+profile_name=${build_type^}-$compiler-$version
+echo "Searching for profile ($profile_name)"
+echo "Checking $ROOT/profiles"
 if [[ ! -f $profile_path ]]; then
-  echo $profile_path not found
-  exit 1
+  conan_home=$(conan config home)
+  echo "Checking $conan_home"
+
+  if [[ ! -f $conan_home/profiles/$profile_name ]]; then
+    echo $profile_name not found
+    exit 1
+  else
+    # when it's in the conan home profile list, the whole path isn't necessary
+    profile_path="$profile_name"
+  fi
+else
+  profile_path="$ROOT/profiles/$profile_name"
 fi
 
 # Build
 conan build -pr:a $profile_path $@ .
-
